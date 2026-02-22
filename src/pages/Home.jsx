@@ -207,7 +207,7 @@ export default function Home() {
         <div
           className="absolute -inset-4 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/Solar Panel Hero Banner Feb 20 2026.png')",
+            backgroundImage: "url('/Hero Banner.webp')",
           }}
         />
         <div className="absolute inset-0 bg-solar-navy/40" />
