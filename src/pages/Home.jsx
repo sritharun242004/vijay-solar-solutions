@@ -207,7 +207,7 @@ export default function Home() {
         <div
           className="absolute -inset-4 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/Hero Banner.webp')",
+            backgroundImage: "url('/HomeBanner.webp')",
           }}
         />
         <div className="absolute inset-0 bg-solar-navy/40" />
