@@ -26,24 +26,33 @@ export default function Contact() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const lines = [
-      `Name: ${formData.name}`,
-      `Phone: ${formData.phone}`,
-      `City: ${formData.city}`,
-      `Property: ${formData.propertyType}`,
-      formData.billRange ? `Monthly Bill: ${formData.billRange}` : "",
-      formData.message ? `Message: ${formData.message}` : "",
-    ].filter(Boolean);
-    const text = `Hi Vijay Solar Solutions, I'd like to book a free site visit.\n\n${lines.join("\n")}`;
-    window.open(
-      `https://wa.me/919600660654?text=${encodeURIComponent(text)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    const body = new URLSearchParams({
+      "form-name": "contact",
+      ...formData,
+    }).toString();
+
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+      });
+
+      if (!res.ok) throw new Error("Submission failed");
+      setSubmitted(true);
+    } catch {
+      setError("Something went wrong. Please try again or call us directly.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -157,11 +166,24 @@ export default function Contact() {
                 </ul>
               </div>
 
-              <div className="rounded-2xl p-6 md:p-10 text-center bg-white border border-gray-100 shadow-sm">
-                <MapPin className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-400 text-sm">
-                  Service available across Tamil Nadu and surrounding regions
-                </p>
+              <div className="rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm">
+                <iframe
+                  title="Vijay Solar Solutions Location"
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3884.5!2d80.024864!3d13.15257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1700000000000"
+                  width="100%"
+                  height="220"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full"
+                />
+                <div className="px-5 py-3 flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-solar-green-dark flex-shrink-0" />
+                  <p className="text-gray-500 text-sm">
+                    Service available across Tamil Nadu and surrounding regions
+                  </p>
+                </div>
               </div>
             </motion.div>
 
@@ -202,6 +224,19 @@ export default function Contact() {
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+                    <input type="hidden" name="form-name" value="contact" />
+                    <p className="hidden">
+                      <label>
+                        Don't fill this out: <input name="bot-field" />
+                      </label>
+                    </p>
+
+                    {error && (
+                      <div className="bg-red-50 border border-red-200 text-red-600 rounded-xl px-4 py-3 text-sm">
+                        {error}
+                      </div>
+                    )}
+
                     <div>
                       <label
                         htmlFor="name"
@@ -329,10 +364,23 @@ export default function Contact() {
 
                     <button
                       type="submit"
-                      className="w-full bg-solar-yellow text-solar-navy font-bold rounded-xl px-4 py-3.5 hover:shadow-[0_0_20px_rgba(244,196,48,0.5)] transition-all duration-300 flex items-center justify-center gap-2 text-base"
+                      disabled={loading}
+                      className="w-full bg-solar-yellow text-solar-navy font-bold rounded-xl px-4 py-3.5 hover:shadow-[0_0_20px_rgba(244,196,48,0.5)] transition-all duration-300 flex items-center justify-center gap-2 text-base disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      <Send className="w-5 h-5" />
-                      Book Free Site Visit
+                      {loading ? (
+                        <>
+                          <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                          </svg>
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          Book Free Site Visit
+                        </>
+                      )}
                     </button>
 
                     <div className="relative">
