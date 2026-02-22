@@ -343,9 +343,12 @@ export default function About() {
               <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-solar-navy mb-3 md:mb-4">
                 Ready to Go Solar?
               </h3>
-              <p className="text-gray-500 text-sm md:text-lg mb-6 md:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
+              <p className="text-gray-500 text-sm md:text-lg mb-3 md:mb-4 leading-relaxed max-w-xl mx-auto lg:mx-0">
                 Book a free site visit and let us design the perfect solar solution
                 for your home or business. Complete subsidy support included.
+              </p>
+              <p className="text-sm md:text-base font-semibold text-solar-green-dark mb-6 md:mb-10">
+                Go solar once — save on electricity for the next 25–30 years.
               </p>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }} className="inline-block">
                 <Link

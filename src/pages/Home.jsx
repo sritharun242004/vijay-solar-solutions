@@ -76,7 +76,7 @@ const subsidyPlans = [
     kw: "2kW",
     amount: "60,000",
     label: "one-time subsidy",
-    popular: true,
+    popular: false,
     features: [
       "Ideal for 2–3 BHK homes",
       "Saves up to ₹2,000/month",
@@ -85,14 +85,15 @@ const subsidyPlans = [
       "Full Subsidy Filing Support",
       "Net Meter & EB Coordination",
     ],
-    cta: "Get Started Now",
+    cta: "Choose Plan",
   },
   {
     tier: "Premium",
-    kw: "3kW",
+    kw: "3kW+",
     amount: "78,000",
     label: "one-time subsidy",
-    popular: false,
+    popular: true,
+    tagline: null,
     features: [
       "Ideal for 3+ BHK / villas",
       "Saves up to ₹3,500/month",
@@ -101,7 +102,7 @@ const subsidyPlans = [
       "Full Subsidy Filing Support",
       "Smart Net Metering Ready",
     ],
-    cta: "Choose Plan",
+    cta: "Get Started Now",
   },
 ];
 
@@ -224,9 +225,12 @@ export default function Home() {
               <span className="text-solar-yellow">Solar</span>
             </h1>
 
-            <p className="text-white/90 text-xs sm:text-sm md:text-base max-w-2xl mx-auto md:mx-0 mb-6 leading-relaxed">
+            <p className="text-white/90 text-xs sm:text-sm md:text-base max-w-2xl mx-auto md:mx-0 mb-2 leading-relaxed">
               MNRE Empaneled | Tier 1 Products | Net Meter & EB Support |
               5-Year Free Maintenance
+            </p>
+            <p className="text-solar-yellow font-semibold text-xs sm:text-sm md:text-base mb-6">
+              One-time setup. 25–30 years of free electricity.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center md:justify-start">
@@ -399,12 +403,15 @@ export default function Home() {
             <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-solar-navy mb-2 md:mb-3">
               Government Subsidy
             </h2>
-            <p className="text-gray-500 text-sm md:text-lg max-w-2xl mx-auto">
+            <p className="text-gray-500 text-sm md:text-lg max-w-2xl mx-auto mb-3">
               No hidden costs. Just high-performance energy. We handle the complete subsidy process for you.
+            </p>
+            <p className="text-sm md:text-base font-semibold text-solar-green-dark">
+              Install once, enjoy 25–30 years of zero electricity bills.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-center mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 items-end mb-10">
             {subsidyPlans.map((plan, index) => (
               <motion.div
                 key={plan.kw}
@@ -416,19 +423,22 @@ export default function Home() {
                 onClick={(e) => fireGreenConfetti(e)}
                 className={`relative rounded-2xl bg-white transition-all duration-300 cursor-pointer ${
                   plan.popular
-                    ? "border-2 border-dashed border-solar-green-dark shadow-xl md:scale-105 md:-my-6 z-10"
+                    ? "border-2 border-solar-green-dark shadow-xl ring-1 ring-solar-green-dark/20 z-10"
                     : "border border-gray-200 shadow-sm hover:shadow-lg"
                 }`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                    <span className="bg-solar-green-dark text-white text-xs font-bold px-5 py-1.5 rounded-full uppercase tracking-wider whitespace-nowrap">
+                    <span className="bg-solar-green-dark text-white text-xs font-bold px-5 py-1.5 rounded-full uppercase tracking-wider whitespace-nowrap shadow-lg shadow-solar-green-dark/30">
                       Most Popular
                     </span>
                   </div>
                 )}
 
-                <div className="p-5 md:p-8">
+                {/* Progressive top spacing: creates increasing height effect */}
+                <div className={`p-5 md:pb-8 md:px-8 ${
+                  index === 0 ? "md:pt-8" : index === 1 ? "md:pt-12" : "md:pt-16"
+                }`}>
                   <p className="text-sm font-semibold text-gray-500 mb-3 md:mb-4">
                     {plan.tier} <span className="text-solar-navy font-bold">{plan.kw}</span>
                   </p>
@@ -470,17 +480,6 @@ export default function Home() {
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <p className="text-sm text-gray-400">
-              Subsidy eligibility and amount subject to MNRE/utility rules. We assist with full documentation.
-            </p>
-          </motion.div>
         </div>
       </section>
 
@@ -591,9 +590,12 @@ export default function Home() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-solar-navy mb-3 md:mb-4">
             Get a Free Quote
           </h2>
-          <p className="text-gray-500 text-sm md:text-lg mb-6 md:mb-10 leading-relaxed">
+          <p className="text-gray-500 text-sm md:text-lg mb-3 md:mb-4 leading-relaxed">
             System cost depends on roof area, load, and wiring conditions.
             We'll inspect your site and share a transparent, no-obligation quote.
+          </p>
+          <p className="text-sm md:text-base font-semibold text-solar-green-dark mb-6 md:mb-10">
+            A single investment today. Decades of zero electricity bills.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
